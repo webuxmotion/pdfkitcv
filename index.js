@@ -2,6 +2,8 @@ const PDFDocument = require('pdfkit');
 const fs = require('fs');
 
 const config = require('./config');
+const grid = require('./components/grid');
+const avatar = require('./components/avatar');
 const titleSubtitle = require('./components/title-subtitle');
 const line = require('./components/line');
 const iconTitle = require('./components/icon-title');
@@ -17,8 +19,14 @@ doc.addPage({
 })
 doc.font('Helvetica');
 
-doc.image('./images/avatar.png', config.padding.left, 20, { width: 50 });
-const left = [100, 250, 420]
+//grid(doc);
+
+avatar(doc, './images/avatar.png', 0, 20);
+const leftSecondLine = 225; // Interested in position, TECHNOLOGIES, ReacJS (3 yrs), LANGUAGES
+const leftThirdLine = 400; // Link to download CV, NodeJS (2 yrs), (8 mos)
+const leftLastLine = 435;
+
+const left = [65, leftSecondLine, leftThirdLine]
 const top = [24, 60];
 titleSubtitle(doc, 'Lastname and Firstname', 'Pereverziev Andrii', left[0], top[0]);
 titleSubtitle(doc, 'How many years old?', '29 yrs', left[0], top[1]);
@@ -27,17 +35,16 @@ titleSubtitle(doc, 'Total commercial experience', '4 yrs 3 mos', left[1], top[1]
 titleSubtitle(doc, 'Link to download CV', 'https://pereverziev.herokuapp.com/cv.pdf', left[2], top[0]);
 
 const topIconTitle = 105;
-iconTitle(doc, 'gmail.png', 'pereverziev.andrii@gmail.com', config.padding.left, topIconTitle);
-iconTitle(doc, 'phone.png', '+38(095)134-33-38', config.padding.left + 180, topIconTitle);
-iconTitle(doc, 'linkedin.png', 'pereverziev-andrii', config.padding.left + 310, topIconTitle);
-iconTitle(doc, 'github.png', 'webuxmotion', config.padding.left + 435, topIconTitle);
-line(doc, 120);
+iconTitle(doc, 'gmail.png', 'pereverziev.andrii@gmail.com', 0, topIconTitle);
+iconTitle(doc, 'phone.png', '+38(095)134-33-38', 180, topIconTitle);
+iconTitle(doc, 'linkedin.png', 'pereverziev-andrii', 310, topIconTitle);
+iconTitle(doc, 'github.png', 'webuxmotion', leftLastLine, topIconTitle);
 
-const topCore = 140;
+const topCore = 145;
 const topTextCore = [topCore + 25, topCore + 45];
-const leftTextCore = [0, 90, 230, 320, 400, 500];
+const leftTextCore = [0, 90, leftSecondLine, 320, leftThirdLine, 500];
 title(doc, 'CORE COMPETENCIES', 0, topCore);
-title(doc, 'TECHNOLOGIES', 230, topCore);
+title(doc, 'TECHNOLOGIES', leftSecondLine, topCore);
 
 text(doc, 'Frontend (4 yrs)', 0, topTextCore[0]);
 text(doc, 'Backend (2 yrs)', 0, topTextCore[1]);
@@ -91,13 +98,11 @@ titleList(doc, 'Web Developer', [
   'Fix bugs on existing projects',
 ], leftTitleList, topWork + 40 + topStep * 4);
 
-var leftWorkingTime = 400;
-
-text(doc, '(8 mos)', leftWorkingTime, topWork + 40);
-text(doc, '(7 mos)', leftWorkingTime, topWork + 40 + topStep);
-text(doc, '(1 yr)', leftWorkingTime, topWork + 40 + topStep * 2);
-text(doc, '(5 mos)', leftWorkingTime, topWork + 40 + topStep * 3);
-text(doc, '(1 yr 7 mos)', leftWorkingTime, topWork + 40 + topStep * 4);
+text(doc, '(8 mos)', leftThirdLine, topWork + 40);
+text(doc, '(7 mos)', leftThirdLine, topWork + 40 + topStep);
+text(doc, '(1 yr)', leftThirdLine, topWork + 40 + topStep * 2);
+text(doc, '(5 mos)', leftThirdLine, topWork + 40 + topStep * 3);
+text(doc, '(1 yr 7 mos)', leftThirdLine, topWork + 40 + topStep * 4);
 
 line(doc, topWork + 40 + topStep * 4 + 60);
 
@@ -105,7 +110,7 @@ const topEducation = 685;
 title(doc, 'EDUCATION', 0, topEducation);
 company(doc, 'PGASA', 'https://pgasa.dp.ua', '2009 - 2014 (Bachelor in Architecture)', 0, topEducation + 30);
 
-const leftLanguages = [230, 340, 450];
+const leftLanguages = [leftSecondLine, 330, leftLastLine];
 title(doc, 'LANGUAGES', leftLanguages[0], topEducation);
 titleList(doc, 'English', ['Intermediate'], leftLanguages[0], topEducation + 30);
 titleList(doc, 'Ukrainian', ['Native'], leftLanguages[1], topEducation + 30);

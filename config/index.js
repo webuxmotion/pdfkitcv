@@ -1,6 +1,6 @@
 module.exports = {
   padding: {
-    left: 20,
+    left: 30,
     right: 590
   }
 }
